@@ -1,0 +1,77 @@
+mode: train
+lmdb: True
+dry_run: false
+train_mode: training
+test_start: 2
+rgb_dir: './datasets/rgb'
+lmdb_dir:  'F:\Datasets\lmdb'
+dataset_json_folder: './preprocessing/dataset_json'
+data_im: continuous # dataset_input_manner joint or continuous
+nEpochs: 20
+SWA: False
+save_avg: True
+log_dir: ./logs/training/
+# label settings
+label_dict:
+  #StyleGAN3
+  StyleGAN3_Fake: 0
+  StyleGAN3_Real: 1
+  #mcnet
+  mcnet_Fake: 0
+  mcnet_Real: 1
+  #mobileswap
+  mobileswap_Real: 0
+  mobileswap_Fake: 1
+  #deepfacelab
+  deepfacelab_Real: 0
+  deepfacelab_Fake: 1
+  #uniface
+  uniface_Real: 0
+  uniface_Fake: 1
+  #E4S
+  e4s_Real: 0
+  e4s_Fake: 1
+  #blendface
+  blendface_Real: 0
+  blendface_Fake: 1
+  #simswap
+  simswap_Real: 0
+  simswap_Fake: 1
+  # DFD
+  DFD_fake: 1
+  DFD_real: 0
+  # FF++ + FaceShifter(FF-real+FF-FH)
+  FF-SH: 1
+  FF-F2F: 1
+  FF-DF: 1
+  FF-FS: 1
+  FF-NT: 1
+  FF-FH: 1
+  FF-real: 0
+  # CelebDF
+  CelebDFv1_real: 0
+  CelebDFv1_fake: 1
+  CelebDFv2_real: 0
+  CelebDFv2_fake: 1
+  # DFDCP
+  DFDCP_Real: 0
+  DFDCP_FakeA: 1
+  DFDCP_FakeB: 1
+  # DFDC
+  DFDC_Fake: 1
+  DFDC_Real: 0
+  # DeeperForensics-1.0
+  DF_fake: 1
+  DF_real: 0
+  # UADFV
+  UADFV_Fake: 1
+  UADFV_Real: 0
+  # Roop
+  roop_Real: 0
+  roop_Fake: 1
+
+
+save_start: 0 # ss
+Gating: None #  CG: context-gating; SG: self-gating; None
+soft_value: 0.0 # with sl prefix means two_trans is false
+sample_size: 256
