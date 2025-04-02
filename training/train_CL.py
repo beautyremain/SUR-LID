@@ -10,23 +10,6 @@ import os
 from collections import defaultdict
 
 from torch.optim.swa_utils import AveragedModel, SWALR
-
-from config.batch_config import reform_config
-from dataset.I2G_dataset import I2GDataset
-from dataset.blend_dataset import blendDataset
-
-from dataset.clockMix_dataset import clockMixDataset
-from dataset.conShuf_dataset import conShufDataset
-from dataset.con_dataset import conDataset
-from dataset.iid_dataset import IIDDataset
-from dataset.lrl_dataset import LRLDataset
-from dataset.paired_dataset import pairedDataset
-from dataset.sbi_dataset_yzy import SBIDataset
-from dataset.sbiplus_dataset import SBIPlusDataset
-from dataset.sbiplus_dataset_v2 import SBIPlusV2Dataset
-from dataset.sbiplus_dataset_v3 import SBIPlusV3Dataset
-from dataset.shuffle_dataset import shuffleDataset
-from dataset.shufflev2_dataset import shuffleV2Dataset
 from optimizor.LinearLR import LinearDecayLR
 from optimizor.SAM import SAM
 from utils.tools import print_cpu_gpu_usage
@@ -53,9 +36,6 @@ import torch.utils.data
 import torch.optim as optim
 
 from dataset.abstract_dataset import DeepfakeAbstractBaseDataset
-from dataset.ff_blend import FFBlendDataset
-from dataset.fwa_blend import FWABlendDataset
-from dataset.pair_dataset import pairDataset
 
 from trainer.trainer_CL import Trainer
 from detectors import DETECTOR
@@ -174,37 +154,6 @@ def prepare_training_data(config):
                 collate_fn=train_set_all.collate_fn,
                 drop_last=False
             )
-        elif 'dataset_type' in config and config['dataset_type'] == 'I2G':
-            train_set = I2GDataset(config)  # Only use the pair dataset class in training
-        elif 'dataset_type' in config and config['dataset_type'] == 'pair':
-            train_set = pairDataset(config)  # Only use the pair dataset class in training
-        elif 'dataset_type' in config and config['dataset_type'] == 'con':
-            train_set = conDataset(config)  # Only use the pair dataset class in training
-        elif 'dataset_type' in config and config['dataset_type'] == 'shuffle':
-            train_set = shuffleDataset(config)
-        elif 'dataset_type' in config and config['dataset_type'] == 'conShuf':
-            train_set = conShufDataset(config)
-        elif 'dataset_type' in config and config['dataset_type'] == 'shufflev2':
-            train_set = shuffleV2Dataset(config)
-        elif 'dataset_type' in config and config['dataset_type'] == 'conMix':
-            train_set = clockMixDataset(config)
-        elif 'dataset_type' in config and config['dataset_type'] == 'sbi':
-            train_set = blendDataset(config)
-        elif 'dataset_type' in config and config['dataset_type'] == 'sbi_v2':
-            train_set = SBIDataset(config)
-        elif 'dataset_type' in config and config['dataset_type'] == 'paired':
-            train_set = pairedDataset(config)
-        elif 'dataset_type' in config and config['dataset_type'] == 'sbiplus':
-            train_set = SBIPlusDataset(config)
-        elif 'dataset_type' in config and config['dataset_type'] == 'sbiplus_v3':
-            train_set = SBIPlusV3Dataset(config)
-        elif 'dataset_type' in config and config['dataset_type'] == 'iid':
-            train_set = IIDDataset(config)
-        elif 'dataset_type' in config and config['dataset_type'] == 'lrl':
-            train_set = LRLDataset(config)
-        elif 'dataset_type' in config and config['dataset_type'] == 'sbiplus_v2':
-            train_set = SBIPlusV2Dataset(config)
-
         else:
             train_set = DeepfakeAbstractBaseDataset(
                 config=config,
@@ -433,8 +382,6 @@ def main():
         config['model_name'] + task_str + '_' + config['time_now']
     )
     os.makedirs(logger_path, exist_ok=True)
-    if args.batch_task:
-        config = reform_config(config)
     if on_2060:
         config['lmdb_dir'] = r'I:\transform_2_lmdb'
         config['train_batchSize'] = 1
@@ -445,7 +392,6 @@ def main():
         config['workers'] = 0
     else:
         config['workers'] = 8
-        # config['lmdb_dir'] = r'/mnt/chongqinggeminiceph1fs/geminicephfs/mm-base-vision/jikangcheng/data/LMDBs'
 
         username = getpass.getuser()
         print(f'username: {username}', flush=True)
