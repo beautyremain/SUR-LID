@@ -1,6 +1,5 @@
-# author: Zhiyuan Yan
-# email: zhiyuanyan@link.cuhk.edu.cn
-# date: 2023-03-30
+# author: Jikang Cheng
+# date: 2024-11
 # description: training code.
 
 
