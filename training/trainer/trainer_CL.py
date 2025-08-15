@@ -344,9 +344,11 @@ class Trainer(object):
     def get_respect_acc(self, prob, label):
         pred = np.where(prob > 0.5, 1, 0)
         judge = (pred == label)
-        zero_num = len(label) - np.count_nonzero(label)
-        acc_fake = np.count_nonzero(judge[zero_num:]) / len(judge[zero_num:])
-        acc_real = np.count_nonzero(judge[:zero_num]) / len(judge[:zero_num])
+        real_idx = np.where(label == 0)[0]
+        fake_idx = np.where(label == 1)[0]
+        acc_real = np.count_nonzero(judge[real_idx]) / len(real_idx)
+        acc_fake = np.count_nonzero(judge[fake_idx]) / len(fake_idx)
+
         return acc_real, acc_fake
 
     def test_one_dataset(self, data_loader):
